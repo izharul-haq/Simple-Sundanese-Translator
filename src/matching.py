@@ -3,6 +3,7 @@ File ini merupakan modul untuk melakukan pencocokan secara eksak
 """
 
 from kmp import kmp
+from bm import bm
 
 def trim_word(text : str, prev_idx : int) -> str:
     """
@@ -105,10 +106,16 @@ def exact_whole_search(method, text : str, pttr : str) -> bool:
 if __name__ == '__main__':
     txt: str = input('teks : ')
     ptr: str = input('pola : ')
+    mtd: int = int(input('1. KMP\n2. BM\nMasukan metode : '))
 
-    isExist : bool = exact_whole_search(kmp, txt, ptr)
 
-    if isExist:
+    found : bool
+    if mtd == 1:
+        found = exact_whole_search(kmp, txt, ptr)
+    elif mtd == 2:
+        found = exact_whole_search(bm, txt, ptr)
+
+    if found:
         print ('pttr found')
     else:
         print ('pttr not found')
