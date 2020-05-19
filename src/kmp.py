@@ -1,13 +1,17 @@
 from typing import List
-import math
 
-def border_function(text : str) -> List[int]:
+"""
+File ini merupakan modul pencocokan string menggunakan algoritme KMP.
+"""
+
+def border_function(pttr : str) -> List[int]:
     """
-    Return list of border function values for each character from pattern
+    Mengembalikan senarai yang berisikan nilai border function untuk
+    masing-masing karakter dari pola
     
-    EXAMPLE :
+    CONTOH :
         
-        - border_function('abacab') returns [0, 0, 0, 1, 0, 1]
+        - border_function('abacab') mengembalikan [0, 0, 0, 1, 0, 1]
     """
 
     size: int = len(pttr)
@@ -33,14 +37,14 @@ def border_function(text : str) -> List[int]:
 
 def KMP_matching(text : str, pttr : str) -> int:
     """
-    Return index of the first character from substring that matches with
-    the pattern using KMP algorithm. If no substring matches with the pattern,
-    return -1.
+    Mengembalikan indeks pertama bagian dari teks yang cocok dengan pola.
+    Jika tidak ada bagian teks yang cocok dengan pola akan mengembalikan -1.
+    Proses pencarian pola pada teks menggunakan algoritme KMP.
 
-    EXAMPLE:
+    CONTOH:
         
-        - KMP_matching('Mencari-cari kunci jawaban', 'cari') returns 3
-        - KMP_matching('Mencari-cari kunci jawaban', 'langit') returns -1
+        - KMP_matching('Mencari-cari kunci jawaban', 'cari') mengembalikan 3
+        - KMP_matching('Mencari-cari kunci jawaban', 'langit') mengembalikan -1
     """
     
     txt_size: int = len(text)
@@ -69,30 +73,34 @@ def KMP_matching(text : str, pttr : str) -> int:
 
 def KMP_exact_matching(text : str, pttr : str) -> bool:
     """
-    Searching for a whole word from text that matches with the pattern.
-    This function only iterate the text once. If a substring from the text
-    matches with the pattern, this function will return wether this substring
-    is whole word or not.
+    Mencari bagian dari teks yang cocok dengan pola secara eksak
+    (bagian dari teks yang ditemukan bukan potongan dari sebuah kata,
+    lihat contoh untuk lebih jelas)
+    dalam sekali iterasi menggunakan algoritme KMP.
     
-    Cases that could happen:  
+    Cara kerja fungsi ini adalah dengan mencari terlebih dahulu bagian
+    dari teks yang cocok dengan pola kemudian mengevaluasi apakah bagian
+    tersebut merupakan kalimat utuh atau tidak.
+
+    Kasus-kasus yang mungkin adalah sebagai berikut:  
         
-        - No substring matches with the pattern, return false.
-        - Substring matches with the pattern but it is not a whole word, return false
-        - Substring matches with the pattern and it is a whole word, return true
+        - Pola tidak ditemukan dalam teks, mengembalikan FALSE.
+        - Terdapat pola pada teks namun tidak eksak, mengembalikan FALSE
+        - Terdapat pola pada teks dan eksak sama, mengembalikan TRUE
     
-    EXAMPLE:  
+    CONTOH:
         
-        - KMP_exact\_matching('Fly to the sky', 'moon') return false
-        - KMP_exact_matching('Currently eating now', 'eat') return false
-        - KMP_exact_matching('Typewriter is using the type machine', 'type') return true
+        - KMP_exact_matching('Fly to the sky', 'moon') mengembalikan FALSE
+        - KMP_exact_matching('Currently eating now', 'eat') mengembalikan FALSE
+        - KMP_exact_matching('Typewriter is using the type machine', 'type') mengembalikan TRUE
     """
 
-    first_idx: int = KMPMatching(text, pttr)
+    first_idx: int = KMP_matching(text, pttr)
 
-    if first_idx == -1:                                     # Pattern not found
+    if first_idx == -1:                                     # Pola tidak ditemukan
         return False
     
-    elif first_idx == 0:                                    # Pattern found in the beginning of the text
+    elif first_idx == 0:                                    # Pola ditemukan di awal teks
         if text == pttr:                                   
             return True
         
@@ -100,8 +108,46 @@ def KMP_exact_matching(text : str, pttr : str) -> bool:
             return text[first_idx + len(pttr)] == ' '
     
     else:
-        if first_idx + len(pttr) == len(text):              # Pattern found in the end of the text
+        if first_idx + len(pttr) == len(text):              # Pola ditemukan di akhir teks
             return text[first_idx - 1] == ' '
         
-        else:                                               # Pattern found in the middle of the text
+        else:                                               # Pola ditemukan di tengah-tengah teks
             return text[first_idx - 1] == ' ' and text[first_idx + len(pttr)] == ' '
+
+def KMP_exact_whole_search(text : str, pttr : str) -> bool:
+    """
+    Mengembalikan apakah terdapat kata-kata pada teks yang cocok dengan pola
+    dengan menggunakan algoritme KMP.
+    
+    Fungsi ini akan mencari hingga benar-benar dipastikan terdapat kata-kata
+    yang sesuai dengan pola yang satu kesatuan dalam teks yang diberikan atau tidak.
+    """
+
+    first_idx: int = KMP_matching(text, pttr)
+
+    if first_idx == -1:
+        return False
+    
+    else:
+        found: bool = False
+        while len(text) >= len(pttr) :
+            if KMP_exact_matching(text, pttr) :
+                found = True
+                break
+            
+            else :
+                text = trimWord(text, first_idx)
+                first_idx = KMP_matching(text, pttr)
+
+        return found
+
+if __name__ == '__main__' :
+    txt : str = input('text string : ')
+    ptr : str = input('pttr string : ')
+
+    isExist : bool = KMP_exact_matching(txt, ptr)
+
+    if isExist :
+        print ('pttr found')
+    else :
+        print ('pttr not found')
