@@ -1,5 +1,12 @@
 # Simple Sundanese Translator
-Simple Sundanese to Bahasa Indonesia translator using Pattern Matching
+Program translasi Indonesia - Sunda dan Sunda - Indonesia sederhana mengggunakan _pattern matching_
+
+## Prasyarat
+Dalam pengembangan program ini, dibutuhkan:
+1. __Python 3.x__  
+
+## Cara Menggunakan
+Cara menggunakan program ini adalah sebagai berikut:  
 
 ## Latar Belakang
 Pada suatu hari, ada mahasiswa bernama Riyugan yang baru pindah ke Bandung. Pada awalnya dia mengalami kesulitan untuk bersosialisai dengan lingkungan sekitar karena orang-orang di lingkungannya yang baru hanya berbicara dalam bahasa Sunda. Beruntungnya Riyugan punya teman dari kampung halamannya, yaitu Anda, untuk diminta membuat penerjemah sederhana dari Bahasa Sunda ke Bahasa Indonesia begitu pula sebaliknya untuk memudahkan dirinya bersosialisasi dengan lingkungan barunya di Bandung.
