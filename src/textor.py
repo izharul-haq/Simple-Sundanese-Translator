@@ -26,10 +26,15 @@ def trim(text : str, prev_idx : int) -> str:
     else:
         return text[i + 1 :]
 
-def get_word(text : str) -> (str, str):
+def split_head(text : str) -> (str, str):
     """
-    Mengekstrak sebuah kata dari teks dimulai dari sebelah kiri
+    Mengekstrak kata pertama dari teks dimulai dari sebelah kiri
     serta teks sisanya
+
+    CONTOH:
+
+        - split_head('uji coba fungsi') mengembalikan ('uji', 'coba fungsi')
+        - split_head('Mencari-cari cara untuk tidur') mengembalikan ('Mencari-cari', 'cara untuk tidur')
     """
 
     first_space_index: int = text.find(' ')
