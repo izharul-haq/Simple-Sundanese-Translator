@@ -4,30 +4,7 @@ File ini merupakan modul untuk melakukan pencocokan secara eksak
 
 from kmp import kmp
 from bm import bm
-
-def trim_word(text : str, prev_idx : int) -> str:
-    """
-    Mengembalikan kata selanjutnya dan seterusnya relatif terhadap
-    indeks dari kata tersebut. Jika indeks berada di kata terakhir
-    maka fungsi mengembalikan ''
-    
-    CONTOH :
-        
-        - trim_word('tucilnya susah banget', 3) mengembalikan 'susah banget'
-        - trim_word('stop', 1) mengembalikan ''
-    """
-    
-    i: int = prev_idx + 1
-    txt_size: int = len(text)
-
-    while i < txt_size and text[i] != ' ':
-        i += 1
-    
-    if i == txt_size:
-        return ''
-    
-    else:
-        return text[i + 1 :]
+from textor import trim
     
 def exact_matching(method, text : str, pttr : str) -> bool:
     """
@@ -98,7 +75,7 @@ def exact_whole_search(method, text : str, pttr : str) -> bool:
                 break
             
             else :
-                text = trim_word(text, first_idx)
+                text = trim(text, first_idx)
                 first_idx = method(text, pttr)
 
         return found
@@ -116,6 +93,6 @@ if __name__ == '__main__':
         found = exact_whole_search(bm, txt, ptr)
 
     if found:
-        print ('pttr found')
+        print ('pola ditemukan')
     else:
-        print ('pttr not found')
+        print ('pola tidak ditemukan')
